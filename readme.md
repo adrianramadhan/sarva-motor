@@ -53,11 +53,11 @@ Pastikan Anda memiliki hal-hal berikut:
 
 ### Instalasi
 
-1.  git clone https://github.com/adrianramadhan/sarva-motor.gitcd sarva-motor
+1.  ```git clone https://github.com/adrianramadhan/sarva-motor.gitcd sarva-motor```
     
-2.  python3 -m venv sarvasource sarva/bin/activate_(Jika Anda menggunakan Windows, gunakan sarva\\Scripts\\activate)_
+2.  ```python3 -m venv sarvasource sarva/bin/activate_(Jika Anda menggunakan Windows, gunakan sarva\\Scripts\\activate)_```
     
-3.  pip install -r requirements.txt
+3.  ```pip install -r requirements.txt```
     
 
 ### Penggunaan
