@@ -57,7 +57,7 @@ Alur perintah dalam sistem ini:
 1. **Hubungkan perangkat keras:**
 
    - PIN Raspberry
-      ![alt text](<Raspberry PinOut.jpeg>)
+     ![alt text](<Raspberry PinOut.jpeg>)
    - Driver motor stepper → pin GPIO Raspberry Pi
      ![alt text](<Steepper Motor Driver PIN.jpeg>)
    - Modul relay → pin GPIO ESP32
