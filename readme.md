@@ -32,20 +32,6 @@ Alur perintah dalam sistem ini:
 
 ---
 
-## Struktur Proyek
-
-```plaintext
-sarva-motor/
-├── raspberry_pi/
-│   ├── main_server.py            # Skrip server utama yang dijalankan di Pi
-│   └── requirements.txt          # Dependensi Python untuk Pi
-├── esp32/
-│   └── relay_serial_firmware.ino # Firmware untuk di-upload ke ESP32
-├── pc_client/
-│   └── kirim_perintah.py         # Skrip untuk mengirim perintah dari PC/Laptop
-└── README.md                     # Dokumen ini
-```
-
 ---
 
 ## Memulai Proyek
@@ -72,7 +58,11 @@ sarva-motor/
 
 1. **Hubungkan perangkat keras:**
 
+   ![alt text](<Raspberry PinOut.jpeg>)
+   - PIN Raspberry
+   ![alt text](<Steepper Motor Driver PIN.jpeg>)
    - Driver motor stepper → pin GPIO Raspberry Pi
+   ![alt text](<ESP to PI.jpeg>)
    - Modul relay → pin GPIO ESP32
    - Pi GND ↔ ESP32 GND (WAJIB)
    - Pi TX (GPIO14) ↔ ESP32 RX2 (GPIO16)
@@ -89,7 +79,7 @@ sarva-motor/
 
 ### Langkah 2: Setup ESP32
 
-1. Buka `esp32/relay_serial_firmware.ino` di Arduino IDE.
+1. Buka `esp32-relay-x8/esp32-relay-x8.ino` di Arduino IDE.
 2. Pilih board **ESP32 Dev Module** dan port yang sesuai.
 3. Upload firmware ke ESP32.
 
@@ -107,7 +97,7 @@ sarva-motor/
    ```
 3. Install dependensi:
    ```bash
-   pip install -r raspberry_pi/requirements.txt
+   pip install -r requirements.txt
    # Pastikan requirements.txt mencantumkan pyserial dan RPi.GPIO
    ```
 
@@ -124,7 +114,7 @@ sarva-motor/
    ```bash
    cd sarva-motor/raspberry_pi
    source ../sarva/bin/activate  # Jika menggunakan virtual environment
-   python3 main_server.py
+   stepper_relay_control_server.py
    ```
 3. **Kirim perintah dari PC/Laptop:**
    ```bash
