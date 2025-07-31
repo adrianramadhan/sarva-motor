@@ -59,10 +59,11 @@ Alur perintah dalam sistem ini:
 1. **Hubungkan perangkat keras:**
 
    ![alt text](<Raspberry PinOut.jpeg>)
+
    - PIN Raspberry
-   ![alt text](<Steepper Motor Driver PIN.jpeg>)
+     ![alt text](<Steepper Motor Driver PIN.jpeg>)
    - Driver motor stepper → pin GPIO Raspberry Pi
-   ![alt text](<ESP to PI.jpeg>)
+     ![alt text](<ESP to PI.jpeg>)
    - Modul relay → pin GPIO ESP32
    - Pi GND ↔ ESP32 GND (WAJIB)
    - Pi TX (GPIO14) ↔ ESP32 RX2 (GPIO16)
@@ -103,7 +104,7 @@ Alur perintah dalam sistem ini:
 
 ### Langkah 4: Setup PC Client
 
-1. Buka dan edit `pc_client/kirim_perintah.py`: sesuaikan alamat IP Raspberry Pi.
+1. Buka dan edit `sarva_client/kirim_perintah.py`: sesuaikan alamat IP Raspberry Pi.
 
 ---
 
@@ -117,8 +118,9 @@ Alur perintah dalam sistem ini:
    stepper_relay_control_server.py
    ```
 3. **Kirim perintah dari PC/Laptop:**
+
    ```bash
-   cd sarva-motor/pc_client
+   cd sarva-motor/sarva_client
    # Menyalakan motor 1 dan relay 1
    python3 kirim_perintah.py "start:m1"
 
@@ -144,4 +146,3 @@ Kontribusi sangat disambut! Jika Anda memiliki saran atau perbaikan:
 ## Lisensi
 
 Proyek ini dilisensikan di bawah **MIT License**.
-
