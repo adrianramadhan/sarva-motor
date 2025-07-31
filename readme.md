@@ -32,8 +32,6 @@ Alur perintah dalam sistem ini:
 
 ---
 
----
-
 ## Memulai Proyek
 
 ### Prasyarat
@@ -58,13 +56,12 @@ Alur perintah dalam sistem ini:
 
 1. **Hubungkan perangkat keras:**
 
-   ![alt text](<Raspberry PinOut.jpeg>)
-
    - PIN Raspberry
-     ![alt text](<Steepper Motor Driver PIN.jpeg>)
+   ![alt text](<Raspberry PinOut.jpeg>)
    - Driver motor stepper → pin GPIO Raspberry Pi
-     ![alt text](<ESP to PI.jpeg>)
+     ![alt text](<Steepper Motor Driver PIN.jpeg>)
    - Modul relay → pin GPIO ESP32
+     ![alt text](<ESP to PI.jpeg>)
    - Pi GND ↔ ESP32 GND (WAJIB)
    - Pi TX (GPIO14) ↔ ESP32 RX2 (GPIO16)
    - Pi RX (GPIO15) ↔ ESP32 TX2 (GPIO17)
