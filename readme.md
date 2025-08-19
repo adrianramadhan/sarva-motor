@@ -14,6 +14,78 @@ graph TD
     D -- Aktifkan Pin --> E(🔌 Relay)
 ```
 
+### Diagram Alir Proses Keseluruhan
+Diagram ini menjelaskan alur kerja sistem sortir dari awal hingga akhir, mengintegrasikan perangkat keras, AI, dan kontrol motor/relay.
+```mermaid
+graph TD
+    subgraph Init["Inisialisasi & Standby"]
+        A[Start] --> B{Jalankan UI}
+        B --> C[Muat Konfigurasi dari settings.json]
+        B --> D[Inisialisasi Perangkat Keras & AI]
+        D --> E[Tampilkan UI, Sistem Idle]
+    end
+
+    subgraph Main["Operasi Sorting (Loop Utama)"]
+        E --> F{Pengguna menekan START}
+        F -- Ya --> G[Sistem Aktif & Timer Mulai]
+        G --> H[Konveyor Utama Aktif]
+        H --> I[Tangkap Frame dari Kamera]
+        I --> J[Proses AI: Deteksi & Klasifikasi Ikan]
+        J --> K{Ikan Terdeteksi Stabil?}
+        K -- Tidak --> I
+        K -- Ya --> L[Baca Berat Ikan dari Timbangan]
+        L --> M{Tentukan Target Box Berdasarkan Jenis & Berat}
+        M --> N[Ambil Koordinat Motor dari settings.json]
+        N --> O[Kirim Perintah Sortir ke Raspberry Pi TCP/IP]
+        O --> P[Raspberry Pi Kendalikan Motor Stepper & Relay via ESP32]
+        P --> Q[Ikan Didorong ke Box Target]
+        Q --> R[Update Data & UI: Jumlah, Berat, Log]
+        R --> S{Pengguna menekan STOP?}
+        S -- Tidak --> I
+        S -- Ya --> T[Sistem Berhenti]
+        T --> U[End]
+    end
+
+    F -- Tidak --> E
+
+```
+
+### Diagram Alir Proses AI
+Diagram ini merinci langkah-langkah yang terjadi di dalam modul Computer Vision untuk setiap frame gambar yang dianalisis.
+```mermaid
+graph TD
+    subgraph "Proses AI per Frame"
+        A["Start: Menerima Frame Gambar & Timestamp"] --> B["Pra-pemrosesan Gambar (Preprocessing)<br>Resize gambar ke ukuran input model<br>Normalisasi nilai piksel<br>Ubah format gambar agar sesuai Keras"];
+        B --> C["Inferensi Model AI<br>Masukkan gambar ke model keras_model.h5"];
+        C --> D["Dapatkan Hasil Prediksi<br>Output berupa array probabilitas<br>Contoh: [Nila: 0.1, Lele: 0.9]"];
+        D --> E["Ekstraksi Informasi<br>Temukan kelas ('label') & probabilitas ('confidence') tertinggi"];
+        E --> F{"Apakah 'confidence' >= 'confidence_threshold'?<br>(Contoh: 0.8 atau 80%)"};
+        
+        F -- Tidak --> G["Hasil Diabaikan<br>Deteksi tidak cukup pasti"];
+        
+        F -- Ya --> H["<b>Logika Stabilisasi Deteksi</b>"];
+        H --> I{"Apakah 'label' saat ini == 'label' sebelumnya?"};
+        
+        I -- Ya --> J{"Apakah jeda waktu < 'stability_window'?<br>(misal: < 0.3 detik)"};
+        J -- Ya --> K["<b>Deteksi Stabil Terkonfirmasi!</b><br>Set 'is_detected' = True"];
+        J -- Tidak --> L["Reset Status<br>Update 'label' & timestamp terakhir"];
+
+        I -- Tidak --> L;
+        
+        L --> M["Deteksi Belum Stabil<br>Set 'is_detected' = False"];
+        
+        subgraph "Output Fungsi"
+            G --> Z["Return: label=None, conf=0, is_detected=False"];
+            M --> Z;
+            K --> Y["Return: label, confidence, is_detected=True"];
+        end
+        
+        Y --> End["End: Kembalikan hasil"];
+        Z --> End;
+    end
+```
+
+
 Alur perintah dalam sistem ini:
 
 1. PC/Laptop Client mengirimkan perintah melalui protokol TCP/IP ke Raspberry Pi.
